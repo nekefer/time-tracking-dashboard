@@ -46,15 +46,16 @@ main {
   height: 100%;
   padding: 81px 20px;
   display: grid;
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  gap: 20px;
 }
 
-.card__head{
+.card__head {
   position: relative;
   width: 100%;
   height: 200px;
   background-color: var(--dark-blue);
-  border-radius: 10px; 
+  border-radius: 10px;
 }
 
 .card__head .head__container {
@@ -108,46 +109,120 @@ main {
   padding: 0 20px;
 }
 
-.body__container a {
+.body__container h3 {
   text-decoration: none;
   color: var(--desaturated-blue);
   font-size: 1rem;
   font-weight: 400;
 }
 
-.body__container a:hover {
+.body__container h3:hover {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.body__container a.active {
+.body__container h3.active {
   color: white;
 }
 
 section {
-  position: relative;
   width: 100%;
   height: 160px;
-  background-color: var(--dark-blue);
-  border-radius: 10px; 
-  margin-top: 20px;
+  border-radius: 10px;
+  /* margin-top: 20px; */
+}
+
+.work {
+  background-color: var(--light-red-work);
+  background-image: url(./images/icon-work.svg);
+  background-repeat: no-repeat;
+  background-position: top -10px right 10px;
+}
+
+.play {
+  background-color: var(--soft-blue-play);
+  background-image: url(./images/icon-play.svg);
+  background-repeat: no-repeat;
+  background-position: top -10px right 10px;
+}
+
+.study {
+  background-color: var(--light-red-study);
+  background-image: url(./images/icon-study.svg);
+  background-repeat: no-repeat;
+  background-position: top -10px right 10px;
+}
+
+.exercise {
+  background-color: var(--lime-green-exercise);
+  background-image: url(./images/icon-exercise.svg);
+  background-repeat: no-repeat;
+  background-position: top -10px right 10px;
+}
+
+.social {
+  background-color: var(--violet-social);
+  background-image: url(./images/icon-social.svg);
+  background-repeat: no-repeat;
+  background-position: top -10px right 10px;
+}
+
+.self-care {
+  background-color: var(--soft-orange-self-care);
+  background-image: url(./images/icon-self-care.svg);
+  background-repeat: no-repeat;
+  background-position: top -10px right 10px;
 }
 
 
 
+section .card__container {
+  height: 124px;
+  margin-top: 38px;
+  width: 100%;
+  background-color: var(--dark-blue);
+  border-radius: 10px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+}
 
 
+section .container__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
+.container__title h2 {
+  font-size: 1rem;
+  font-weight: 500;
+}
 
+.daily,
+.weekly,
+.monthly {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
 
+.daily h3,
+.weekly h3,
+.monthly h3 {
+  font-size: 32px;
+  font-weight: 300;
+}
 
-
-
-
-
-
-
-
-
+.daily p,
+.weekly p,
+.monthly p {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--pale-blue);
+}
 
 .attribution {
   position: absolute;
@@ -159,4 +234,103 @@ section {
 
 .attribution a {
   color: hsl(228, 45%, 44%);
+}
+
+
+@media screen and (min-width: 830px) {
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  main {
+    margin-inline: 165px;
+    grid-template-columns: repeat(3, minmax(255px, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    gap: 30px;
+    padding: 0;
+  }
+
+
+  .card__head {
+    height: 100%;
+    grid-row: span 3;
+  }
+
+  .card__head .head {
+    height: 75%;
+    align-items: start;
+
+  }
+
+  .card__head .head__container {
+    margin: 20px;
+    align-items: start;
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  .card__head .head__container img {
+    height: 78px;
+    width: 78px;
+  }
+
+  .card__head .head_text {
+    /* align-items: start; */
+  }
+
+  .card__head .head_text h1 {
+    font-size: 40px;
+  }
+
+  .card__head .body__container {
+    height: 25%;
+    flex-direction: column;
+    align-items: start;
+
+    /* padding-left: 20px; */
+    justify-content: space-evenly;
+  }
+
+  section {
+    height: 100%;
+  }
+
+  section .card__container {
+    height: calc(100% - 38px);
+  }
+
+  .daily,
+.weekly,
+.monthly {
+  flex-direction: column;
+  align-items: start;
+}
+
+.daily h3,
+.weekly h3,
+.monthly h3 {
+  font-size: 56px;
+  font-weight: 300;
+}
+
+
+
+
+
+}
+
+@media screen and (min-width: 1120px) {
+
+  main {
+    margin-inline: 165px;
+    grid-template-columns: repeat(4, minmax(255px, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    gap: 30px;
+    padding: 0;
+  }
+
+
+
 }

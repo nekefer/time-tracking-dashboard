@@ -1,107 +1,115 @@
 const main = document.getElementsByTagName('main');
+const timeFormat = document.querySelectorAll('.time');
 
 // URL for the request (Ensure the file exists and the path is correct)
 const requestUrl = "./data.json"; 
 let dataPopulate = null;
 
-
-// Use fetch to make the request and handle the response
-fetch(requestUrl)
-  .then(response => {
+// Function to fetch the data
+async function fetchData() {
+  try {
+    const response = await fetch(requestUrl);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return response.json(); // Parse the response as JSON
-  })
-  .then(data => {
-        dataPopulate = data;
-  })
-  .catch(error => {
+    dataPopulate = await response.json(); // Parse the response as JSON
+    createCards(); // Call the function to create the cards after data is fetched
+  } catch (error) {
     console.error('Error fetching the request:', error);
-  });
+  }
+}
 
+// Function to create the cards
+function createCards() {
+  if (dataPopulate != null) {
+    for (let i = 0; i < dataPopulate.length; i++) {
+      const element = dataPopulate[i];
+      const div = document.createElement('section');
+      div.classList.add('card');
 
-setTimeout(() => {
-    if(dataPopulate != null){
-        for (let i = 0; i < dataPopulate.length; i++) {
-            const element = dataPopulate[i];
-            const div = document.createElement('section');
-            const container__top = document.createElement('div');
-            container__top.classList.add('container__top');
-            const img__top = document.createElement('img');
-            img__top.classList.add('img__top');
-            if(element.title == 'Self Care'){
-                img__top.src = "/images/icon-self-care.svg";
-            }else if(element.title == 'Work'){
-                img__top.src = "/images/icon-work.svg";
-            }else if(element.title == 'Play'){
-                img__top.src = "/images/icon-play.svg";
-            }else if(element.title == 'Study'){
-                img__top.src = "/images/icon-study.svg";
-            }else if(element.title == 'Social'){
-                img__top.src = "/images/icon-social.svg";
-            }else if(element.title == 'Exercise'){
-                img__top.src = "/images/icon-exercise.svg";
-            }
-            container__top.appendChild(img__top);
-            div.appendChild(container__top);
+      // Dynamically set class based on title
+      const titleClass = element.title.toLowerCase().replace(" ", "-");
+      div.classList.add(titleClass);
 
-            div.classList.add('card');
+      const card__container = document.createElement('div');
+      card__container.classList.add('card__container');
 
-            const containerTitle = document.createElement('div');
-            containerTitle.classList.add('container__title');
-            const title = document.createElement('h2');
-            title.classList.add('title');
-            title.textContent = element.title;
-            const img = document.createElement('img');
-            img.classList.add('elipse');
-            img.src = "/images/icon-ellipsis.svg";
-            containerTitle.appendChild(title);
-            containerTitle.appendChild(img);
-            div.appendChild(containerTitle);
+      const containerTitle = document.createElement('div');
+      containerTitle.classList.add('container__title');
+      const title = document.createElement('h2');
+      title.classList.add('title');
+      title.textContent = element.title;
+      const img = document.createElement('img');
+      img.classList.add('elipse');
+      img.src = "/images/icon-ellipsis.svg";
+      containerTitle.appendChild(title);
+      containerTitle.appendChild(img);
+      card__container.appendChild(containerTitle);
 
-            const daily = document.createElement('div');
-            daily.classList.add('daily');
-            const presentDaily = document.createElement('p');
-            presentDaily.classList.add('presentDaily');
-            presentDaily.textContent = element.timeframes.daily.current + 'hrs';
-            const previousDaily = document.createElement('p');
-            previousDaily.classList.add('previousDaily');
-            previousDaily.textContent = 'Last Day - ' + element.timeframes.daily.previous + 'hrs';
-            daily.appendChild(presentDaily);
-            daily.appendChild(previousDaily);
+      // Daily data
+      const daily = document.createElement('div');
+      daily.classList.add('daily');
+      const presentDaily = document.createElement('h3');
+      presentDaily.classList.add('presentDaily');
+      presentDaily.textContent = element.timeframes.daily.current + 'hrs';
+      const previousDaily = document.createElement('p');
+      previousDaily.classList.add('previousDaily');
+      previousDaily.textContent = 'Last Day - ' + element.timeframes.daily.previous + 'hrs';
+      daily.appendChild(presentDaily);
+      daily.appendChild(previousDaily);
 
+      // Weekly data
+      const weekly = document.createElement('div');
+      weekly.classList.add('weekly');
+      const presentWeekly = document.createElement('h3');
+      presentWeekly.classList.add('presentWeekly');
+      presentWeekly.textContent = element.timeframes.weekly.current + 'hrs';
+      const previousWeekly = document.createElement('p');
+      previousWeekly.classList.add('previousWeekly');
+      previousWeekly.textContent = 'Last Week - ' + element.timeframes.weekly.previous + 'hrs';
+      weekly.appendChild(presentWeekly);
+      weekly.appendChild(previousWeekly);
+      
+      // Monthly data
+      const monthly = document.createElement('div');
+      monthly.classList.add('monthly');
+      const presentMonthly = document.createElement('h3');
+      presentMonthly.classList.add('presentMonthly');
+      presentMonthly.textContent = element.timeframes.monthly.current + 'hrs';
+      const previousMonthly = document.createElement('p');
+      previousMonthly.classList.add('previousMonthly');
+      previousMonthly.textContent = 'Last Month - ' + element.timeframes.monthly.previous + 'hrs';
+      monthly.appendChild(presentMonthly);
+      monthly.appendChild(previousMonthly);
 
+      // Event listeners for timeFormat buttons
+      timeFormat.forEach(button => {
+        button.addEventListener("click", () => {
+          // Remove the 'active' class from all buttons
+          timeFormat.forEach(el => el.classList.remove("active"));
+          button.classList.add("active");
 
-            const weekly = document.createElement('div');
-            weekly.classList.add('weekly');
-            const presentWeekly = document.createElement('p');
-            presentWeekly.classList.add('presentWeekly');
-            presentWeekly.textContent = element.timeframes.weekly.current + 'hrs';
-            const previousWeekly = document.createElement('p');
-            previousWeekly.classList.add('previousWeekly');
-            previousWeekly.textContent = 'Last Week - ' + element.timeframes.weekly.previous + 'hrs';
-            weekly.appendChild(presentWeekly);
-            weekly.appendChild(previousWeekly);
+          // Clear existing timeframe (daily, weekly, monthly)
+          card__container.querySelectorAll('.daily, .weekly, .monthly').forEach(el => el.remove());
 
-            const monthly = document.createElement('div');
-            monthly.classList.add('monthly');
-            const presentMonthly = document.createElement('p');
-            presentMonthly.classList.add('presentMonthly');
-            presentMonthly.textContent = element.timeframes.monthly.current + 'hrs';
-            const previousMonthly = document.createElement('p');
-            previousMonthly.classList.add('previousMonthly');
-            previousMonthly.textContent = 'Last Month - ' + element.timeframes.monthly.previous + 'hrs';
-            monthly.appendChild(presentMonthly);
-            monthly.appendChild(previousMonthly);
+          // Append the correct timeframe based on the clicked button
+          if (button.textContent.toLowerCase() === 'daily') {
+            card__container.appendChild(daily);
+          } else if (button.textContent.toLowerCase() === 'weekly') {
+            card__container.appendChild(weekly);
+          } else if (button.textContent.toLowerCase() === 'monthly') {
+            card__container.appendChild(monthly);
+          }
+        });
+      });
 
-
-
-
-            div.appendChild(daily);
-            // div.appendChild(weekly);
-            // div.appendChild(monthly);
-            main[0].appendChild(div);
-        }
+      // Default: Show weekly data first
+      card__container.appendChild(weekly);
+      div.appendChild(card__container);
+      main[0].appendChild(div);
     }
-}, 1000);
+  }
+}
+
+// Call the fetchData function
+fetchData();
