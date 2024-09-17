@@ -109,18 +109,18 @@ main {
   padding: 0 20px;
 }
 
-.body__container h3 {
+.body__container h2 {
   text-decoration: none;
   color: var(--desaturated-blue);
   font-size: 1rem;
   font-weight: 400;
 }
 
-.body__container h3:hover {
+.body__container h2:hover {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.body__container h3.active {
+.body__container h2.active {
   color: white;
 }
 
