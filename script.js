@@ -42,6 +42,7 @@ function createCards() {
       const img = document.createElement('img');
       img.classList.add('elipse');
       img.src = "/images/icon-ellipsis.svg";
+      img.alt = "elipse image";
       containerTitle.appendChild(title);
       containerTitle.appendChild(img);
       card__container.appendChild(containerTitle);
